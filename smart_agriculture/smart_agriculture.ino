@@ -1,6 +1,5 @@
 //Khai bao thu vien
 #include <WiFi.h>
-#include <WiFiClient.h>
 #include <PubSubClient.h>
 #include "DHT.h"
 
@@ -23,9 +22,8 @@ char clientId[] = "d:" ORG ":" DEVICE_TYPE ":" DEVICE_ID;
 
 
 //dinh nghia cac topic
-//char pubTopic1[] = "iot-2/evt/status1/fmt/json";
-//char pubTopic2[] = "iot-2/evt/status2/fmt/json";
-char pubTopic[] = "iot-2/evt/status/fmt/json";
+char pubTopic[] = "iot-2/evt/status/fmt/json"; //topic gui du lieu
+char subTopic[] = "iot-2/evt/control/fmt/json"; //topic nhan du lieu
 
 
 //khai bao gia tri tk mk ket noi wifi
@@ -35,14 +33,16 @@ const char* password = "12340000";
 
 //khai bao cac bien toan cuc
 WiFiClient wifiClient; // ket noi wifi
-PubSubClient client(server, 1883, NULL, wifiClient); //ket noi mqtt
+PubSubClient client(wifiClient); //ket noi mqtt
 DHT dht(DHTPIN, DHTTYPE); //ket noi sensor DHT22
-
+unsigned long lastMsg = 0; //bien thoi gian gui du lieu
 
 //ham ket noi wifi
 void wifiConnect () {
+  delay(10);
   Serial.println();
   Serial.print("Connecting to "); Serial.print(ssid);
+  //Wifi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -59,15 +59,36 @@ void mqttConnect () {
   if (WiFi.status() != WL_CONNECTED) {
     wifiConnect();
   }
-  Serial.print("Reconnecting client to ");
-  Serial.println(server);
+  Serial.print("Reconnecting client to "); Serial.println(server);
   while (!client.connect(clientId, authMethod, token)) {
     Serial.print(".");
     delay(500);
   }
+  client.subscribe(subTopic); //subscribe de nhan du lieu
   Serial.println("Bluemix connected");
 }
 
+void callback(char* topic, byte* payload, unsigned int length) {
+  //in ra serial du lieu nhan duoc
+  Serial.print("Message received: ");
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+  }
+  Serial.println();
+
+  //Xu ly du lieu nhan duoc de dieu khien den
+  /*
+    // Switch on the LED if an 1 was received as first character
+    if ((char)payload[0] == '1') {
+    digitalWrite(  , LOW);   // Turn the LED on (Note that LOW is the voltage level
+    // but actually the LED is on; this is because
+    // it is active low on the ESP-01)
+    } else {
+    digitalWrite(  , HIGH);  // Turn the LED off by making the voltage HIGH
+    }
+  */
+
+}
 
 void setup() {
   Serial.begin(115200);
@@ -75,20 +96,21 @@ void setup() {
   pinMode(14, INPUT);
 
   wifiConnect();
+  //ket noi mqtt
+  client.setServer(server, 1883);
+  client.setCallback(callback);
   mqttConnect();
 
 }
 
-//bien thoi gian gui du lieu
-long lastMsg = 0;
-
 void loop() {
+
   if (!client.connected()) {
     mqttConnect();
   }
-
   client.loop();
-  long now = millis();
+
+  unsigned long now = millis();
   if (now - lastMsg > 3000) { //3s gui du lieu 1 lan
     lastMsg = now;
 
