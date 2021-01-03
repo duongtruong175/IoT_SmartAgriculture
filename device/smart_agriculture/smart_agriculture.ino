@@ -1,7 +1,7 @@
 //Khai bao thu vien
 #include <WiFi.h>
-#include <WiFiClient.h>
 #include <PubSubClient.h>
+#include <Arduino_JSON.h>
 #include "DHT.h"
 
 //dinh nghia protype cac ham
@@ -10,6 +10,10 @@ void callback(char*, byte*, unsigned int);
 //dinh nghia cac chan ket noi
 #define DHTPIN 16
 #define DHTTYPE DHT22
+#define LED_LAMP 25
+#define LED_PUMP 26
+#define DIGITAL_DHT 14
+#define ANALOG_DHT 34
 
 //dinh nghia cac thong so thiet bi de ket noi IBM cloud
 #define ORG "a1fssz"
@@ -24,7 +28,7 @@ char clientId[] = "d:" ORG ":" DEVICE_TYPE ":" DEVICE_ID;
 
 //dinh nghia cac topic
 char pubTopic[] = "iot-2/evt/status/fmt/json"; //topic gui du lieu
-char subTopic[] = "iot-2/evt/control/fmt/json"; //topic nhan du lieu
+char subTopic[] = "iot-2/cmd/control/fmt/json"; //topic nhan du lieu
 
 //khai bao gia tri tk mk ket noi wifi
 const char* ssid = "Abcde";
@@ -32,7 +36,7 @@ const char* password = "12340000";
 
 //khai bao cac bien toan cuc
 WiFiClient wifiClient; // ket noi wifi
-PubSubClient client(server, 1883, NULL, wifiClient); //ket noi mqtt
+PubSubClient client(server, 1883, callback, wifiClient); //ket noi mqtt
 DHT dht(DHTPIN, DHTTYPE); //ket noi sensor DHT22
 unsigned long lastMsg = 0; //bien thoi gian gui du lieu
 float humidity_air, temperature_air, humidity_soil, humidity_soil_sum;
@@ -46,16 +50,33 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println();
 
   //Xu ly du lieu nhan duoc de dieu khien den
-  /*
-    // Switch on the LED if an 1 was received as first character
-    if ((char)payload[0] == '1') {
-    digitalWrite(  , LOW);   // Turn the LED on (Note that LOW is the voltage level
-    // but actually the LED is on; this is because
-    // it is active low on the ESP-01)
-    } else {
-    digitalWrite(  , HIGH);  // Turn the LED off by making the voltage HIGH
+  JSONVar myObject = JSON.parse((const char*)payload);
+  if (JSON.typeof(myObject) == "undefined") {
+    Serial.println("Parsing payload failed!");
+    return;
+  }
+  if (myObject.hasOwnProperty("lamp")) {
+    int lampCmd = (int)myObject["lamp"];
+    if (lampCmd == 1) {
+      digitalWrite(LED_LAMP, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(1000);                       // wait for a second
     }
-  */
+    else if (lampCmd == 0) {
+      digitalWrite(LED_LAMP, LOW);    // turn the LED off by making the voltage LOW
+      delay(1000);                       // wait for a second
+    }
+  }
+  else if (myObject.hasOwnProperty("pump")) {
+    int lightCmd = (int)myObject["pump"];
+    if (lightCmd == 1) {
+      digitalWrite(LED_PUMP, HIGH);   // turn the LED on (HIGH is the voltage level)
+      delay(1000);                       // wait for a second
+    }
+    else if (lightCmd == 0) {
+      digitalWrite(LED_PUMP, LOW);    // turn the LED off by making the voltage LOW
+      delay(1000);                       // wait for a second
+    }
+  }
 
 }
 
@@ -68,7 +89,7 @@ void mqttReconnect() {
       Serial.print(".");
       delay(500);
     }
-    //client.subscribe(subTopic); //subscribe de nhan du lieu
+    client.subscribe(subTopic); //subscribe de nhan du lieu
     Serial.println("Bluemix connected");
   }
 }
@@ -76,7 +97,9 @@ void mqttReconnect() {
 void setup() {
   Serial.begin(115200);
   dht.begin();
-  pinMode(14, INPUT);
+  pinMode(DIGITAL_DHT, INPUT);
+  pinMode(LED_LAMP, OUTPUT); //den mo phong light
+  pinMode(LED_PUMP, OUTPUT); //den mo phong may bom
   humidity_soil_sum = 0;
 
   // ket noi wifi
@@ -108,7 +131,7 @@ void loop() {
     humidity_air = dht.readHumidity();
     temperature_air = dht.readTemperature();
     for (int i = 0; i < 10; i++) { //doc 10 lan roi lay trung binh de tang do chinh xac
-      humidity_soil_sum += analogRead(34);
+      humidity_soil_sum += analogRead(ANALOG_DHT);
     }
     humidity_soil = humidity_soil_sum / 10;
     humidity_soil_sum = 0;
