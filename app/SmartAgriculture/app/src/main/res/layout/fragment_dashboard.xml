@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.DashboardFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/txt_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:textColor="#ff0000"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:text="Dashboard"
+                tools:ignore="MissingConstraints" />
+
+            <Spinner
+                android:id="@+id/spinner_chart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/txt_header"
+                android:layout_marginTop="20dp"
+                android:textSize="20sp"
+                tools:ignore="MissingConstraints" />
+
+            <RelativeLayout
+                android:id="@+id/chartFrame"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_chart">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/lineChart"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:visibility="gone">
+
+                </com.github.mikephil.charting.charts.LineChart>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:gravity="center" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/checkboxArea"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                app:layout_constraintTop_toBottomOf="@id/chartFrame"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:orientation="horizontal">
+
+                <CheckBox android:id="@+id/checkbox_temp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Temperature"
+                    android:checked="true"/>
+
+                <CheckBox android:id="@+id/checkbox_air"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Air Humidity"
+                    android:checked="true"/>
+
+                <CheckBox android:id="@+id/checkbox_soil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Soil Humidity"
+                    android:checked="true"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="From: "
+                android:textColor="#000000"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="@+id/tv_date_start"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_date_start"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_date_start"
+                android:drawableLeft="@drawable/ic_baseline_date_range_24"
+                android:drawablePadding="4dp"
+                android:background="#808080"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:gravity="center|left"
+                app:layout_constraintTop_toBottomOf="@id/checkboxArea"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintLeft_toRightOf="@+id/tv_from"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/tv_to"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:hint="dd/mm/yyyy"
+                android:textSize="18sp"
+                android:textColorHint="#FFB3B3B3"
+                android:textColor="#FFFFFF"/>
+
+            <TextView
+                android:id="@+id/tv_to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To: "
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:layout_marginLeft="4dp"
+                app:layout_constraintTop_toTopOf="@+id/tv_date_end"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_date_end"
+                app:layout_constraintLeft_toRightOf="@+id/tv_date_start"
+                app:layout_constraintRight_toLeftOf="@+id/tv_date_end"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_date_end"
+                android:drawableLeft="@drawable/ic_baseline_date_range_24"
+                android:drawablePadding="4dp"
+                android:background="#808080"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:gravity="center|left"
+                app:layout_constraintTop_toBottomOf="@id/checkboxArea"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/tv_to"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:hint="dd/mm/yyyy"
+                android:textSize="18sp"
+                android:textColorHint="#FFB3B3B3"
+                android:textColor="#FFFFFF"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</LinearLayout>

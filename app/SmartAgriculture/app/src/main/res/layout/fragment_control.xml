@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".fragments.ControlFragment">
+
+    <TextView
+        android:id="@+id/txt_header"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:textColor="#ff0000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="Real Data and Control Actuators"/>
+
+    <TextView
+        android:id="@+id/txt_device"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="left|center"
+        android:paddingLeft="18sp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:text=""/>
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="left|center"
+        android:paddingLeft="18sp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:text=""/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/txt_temperature_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txt_temperature"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="Temperature"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txt_temperature"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="4dp"
+                android:gravity="right|center"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="32dp"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/img_temperature"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_temperature"
+                android:layout_toRightOf="@+id/txt_temperature"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/txt_humidity_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txt_humidity"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="Humidity"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txt_humidity"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="2dp"
+                android:gravity="right|center"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="32dp"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/img_humidity"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_humidity"
+                android:layout_toRightOf="@+id/txt_humidity"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/txt_soil_moisture_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/txt_soil_moisture"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:text="Soil Moisture"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/txt_soil_moisture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="2dp"
+                android:gravity="right|center"
+                android:text="0"
+                android:textStyle="bold"
+                android:textSize="32dp"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/img_soil_moisture"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_soil"
+                android:layout_toRightOf="@+id/txt_soil_moisture"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_lamp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_lamp" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_lamp"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="12dp"
+                app:switchPadding="4dp"
+                android:checked="false"
+                app:switchMinWidth="60dp"
+                android:layout_toRightOf="@+id/img_lamp"/>
+
+            <TextView
+                android:id="@+id/txt_lamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lamp is Off"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:layout_alignLeft="@+id/img_lamp"
+                android:layout_below="@+id/img_lamp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/img_pump"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/ic_pump" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_pump"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="12dp"
+                app:switchPadding="4dp"
+                android:checked="false"
+                app:switchMinWidth="60dp"
+                android:layout_toRightOf="@+id/img_pump"/>
+
+            <TextView
+                android:id="@+id/txt_pump"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pump is Off"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"
+                android:layout_alignLeft="@+id/img_pump"
+                android:layout_below="@+id/img_pump"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

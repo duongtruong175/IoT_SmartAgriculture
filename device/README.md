@@ -1,5 +1,5 @@
 # IoT_SmartAgriculture
-
+Thiết bị Device ESP32 nhận và gửi dữ liệu thông số môi trường
 ## Install
 ### 1. Cài đặt Add-on ESP32 Board trên Arduino IDE
 - Thêm https://dl.espressif.com/dl/package_esp32_index.json

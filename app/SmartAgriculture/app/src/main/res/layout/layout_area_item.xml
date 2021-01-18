@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgView"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:background="@drawable/ic_area"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="50dp" />
+
+    <TextView
+        android:id="@+id/text_devicetype"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_toRightOf="@id/imgView"
+        android:gravity="center"
+        android:text="ESP32"
+        android:textColor="#000000"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/text_deviceid"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/text_devicetype"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/imgView"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:text="123456789"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/text_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imgView"
+        android:textColor="#FF0000"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
+        android:layout_alignLeft="@+id/imgView"
+        android:layout_alignRight="@+id/imgView"
+        android:text="Khu vực 1" />
+
+</RelativeLayout>
