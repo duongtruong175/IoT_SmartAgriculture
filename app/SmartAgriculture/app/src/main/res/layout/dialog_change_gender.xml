@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="320dp"
+    android:focusableInTouchMode="true"
+    android:background="@drawable/background_black">
+
+    <TextView
+        android:id="@+id/txt_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cập nhập giới tính"
+        android:layout_marginTop="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:gravity="center"/>
+
+    <TextView
+        android:id="@+id/txt_male"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Male"
+        android:gravity="center|left"
+        android:paddingLeft="18dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/txt_header"
+        android:textColor="#CCFFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txt_female"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Female"
+        android:gravity="center|left"
+        android:paddingLeft="18dp"
+        android:layout_below="@+id/txt_male"
+        android:textColor="#CCFFFFFF"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txt_other"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Other"
+        android:gravity="center|left"
+        android:paddingLeft="18dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/txt_female"
+        android:textColor="#CCFFFFFF"
+        android:textSize="18sp" />
+
+</RelativeLayout>

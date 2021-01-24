@@ -8,6 +8,11 @@
     android:focusableInTouchMode="true"
     tools:context=".LoginActivity">
 
+    <include
+        android:id="@+id/pb_loading"
+        android:visibility="gone"
+        layout="@layout/progressbar_loading" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -66,7 +71,7 @@
                 android:layout_below="@id/et_password"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="60dp"
-                android:text="Login" />
+                android:text="Log in" />
 
             <TextView
                 android:id="@+id/tv_span"

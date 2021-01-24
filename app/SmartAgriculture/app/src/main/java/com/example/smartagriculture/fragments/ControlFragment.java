@@ -48,23 +48,16 @@ public class ControlFragment extends Fragment {
 
     // cac thong so ket noi iot
     final String IOT_ORGANIZATION_TCP = ".messaging.internetofthings.ibmcloud.com";
-    final String deviceType = "ESP32";  //thong tin device se dung de nhan va gui du lieu
-    final String deviceID = "543493B5AA8C";
+    String deviceType;  //thong tin device se dung de nhan va gui du lieu
+    String deviceId;
     final String organization = "i4tud6";
     final String appID = "app01";
-    final String IOT_API_KEY  = "wctfyfppf2";
+    final String IOT_API_KEY = "wctfyfppf2";
     final String authorizationToken = "HtGR15MOEu7taLi02Q";
     MqttAndroidClient client;
 
     public ControlFragment() {
         // Required empty public constructor
-    }
-
-    public static ControlFragment newInstance(String param1, String param2) {
-        ControlFragment fragment = new ControlFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
@@ -76,6 +69,10 @@ public class ControlFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // lay du lieu tu HomeFragment truyen qua
+        deviceType = getArguments().getString("deviceType");
+        deviceId = getArguments().getString("deviceId");
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_control, container, false);
 
@@ -95,8 +92,8 @@ public class ControlFragment extends Fragment {
         String connectionURI = "tcp://" + organization + IOT_ORGANIZATION_TCP;
         String username = "a-" + organization + "-" + IOT_API_KEY;
         char[] password = authorizationToken.toCharArray();
-        String pubTopic = "iot-2/type/" + deviceType + "/id/" + deviceID + "/cmd/control/fmt/json"; //topic dieu khien
-        String subTopic = "iot-2/type/" + deviceType + "/id/" + deviceID + "/evt/status/fmt/json"; //topic nhan du lieu data sensor
+        String pubTopic = "iot-2/type/" + deviceType + "/id/" + deviceId + "/cmd/control/fmt/json"; //topic dieu khien
+        String subTopic = "iot-2/type/" + deviceType + "/id/" + deviceId + "/evt/status/fmt/json"; //topic nhan du lieu data sensor
 
         if (isNetworkConnected()) {
             // connect
@@ -112,7 +109,7 @@ public class ControlFragment extends Fragment {
                         // We are connected
                         // Subscribe topic
                         subMQTT(subTopic);
-                        txt_device.setText("Device " + deviceType + ": " + deviceID);
+                        txt_device.setText("Thiết bị " + deviceType + ": " + deviceId);
                     }
 
                     @Override
@@ -137,9 +134,9 @@ public class ControlFragment extends Fragment {
                         JSONObject payload = new JSONObject(message.toString());
                         JSONObject data = payload.getJSONObject("d");
                         long timestamp = data.getLong("time_send");
-                        int temp = (int)data.getDouble("temperature_air");
-                        int hum = (int)data.getDouble("humidity_air");
-                        int soil = (int)data.getDouble("humidity_soil");
+                        int temp = (int) data.getDouble("temperature_air");
+                        int hum = (int) data.getDouble("humidity_air");
+                        int soil = (int) data.getDouble("humidity_soil");
                         Date time_send = new Date(timestamp * 1000);
                         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
                         txt_time.setText("Time: " + formatter.format(time_send));
@@ -166,18 +163,15 @@ public class ControlFragment extends Fragment {
                         if (pubMQTT(pubTopic, payload)) {
                             txt_lamp.setText("Lamp is On");
                             Toast.makeText(getActivity(), "Bật đèn thành công", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             switch_lamp.setChecked(false);
                         }
-                    }
-                    else {
+                    } else {
                         String payload = "{\"lamp\":0}";
                         if (pubMQTT(pubTopic, payload)) {
                             txt_lamp.setText("Lamp is Off");
                             Toast.makeText(getActivity(), "Tắt đèn thành công", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             switch_lamp.setChecked(true);
                         }
                     }
@@ -193,26 +187,23 @@ public class ControlFragment extends Fragment {
                         if (pubMQTT(pubTopic, payload)) {
                             txt_pump.setText("Pump is On");
                             Toast.makeText(getActivity(), "Bật máy bơm thành công", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             switch_pump.setChecked(false);
                         }
-                    }
-                    else {
+                    } else {
                         String payload = "{\"pump\":0}";
                         if (pubMQTT(pubTopic, payload)) {
                             txt_pump.setText("Pump is Off");
                             Toast.makeText(getActivity(), "Tắt máy bơm thành công", Toast.LENGTH_SHORT).show();
-                        }
-                        else {
+                        } else {
                             switch_pump.setChecked(true);
                         }
                     }
                 }
             });
-        }
-        else {
-            Toast.makeText(getActivity(),"Kết nối thiết bị thất bại, hãy bật internet",Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(getActivity(), "Kết nối thiết bị thất bại, hãy bật internet", Toast.LENGTH_SHORT).show();
         }
 
         return view;
@@ -258,7 +249,7 @@ public class ControlFragment extends Fragment {
     // kiem tra may co ket noi internet hay khong
     private boolean isNetworkConnected() {
         Context context = getContext();
-        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }

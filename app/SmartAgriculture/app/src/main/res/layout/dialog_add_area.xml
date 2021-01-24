@@ -5,6 +5,11 @@
     android:focusableInTouchMode="true"
     android:background="@drawable/background_black">
 
+    <include
+        android:id="@+id/pb_loading"
+        android:visibility="gone"
+        layout="@layout/progressbar_loading" />
+
     <TextView
         android:id="@+id/txt_header"
         android:layout_width="match_parent"
@@ -45,6 +50,7 @@
         android:textColor="#FFFFFF"
         android:background="#11000000"
         android:textColorHint="#FFB3B3B3"
+        android:inputType="text"
         android:hint="Nhập tên khu vực" />
 
     <TextView
@@ -73,6 +79,7 @@
         android:textColor="#FFFFFF"
         android:background="#11000000"
         android:textColorHint="#FFB3B3B3"
+        android:inputType="text"
         android:layout_toRightOf="@+id/txt_span2"
         android:hint="Nhập kiểu thiết bị" />
 
@@ -102,6 +109,7 @@
         android:textColor="#FFFFFF"
         android:background="#11000000"
         android:textColorHint="#FFB3B3B3"
+        android:inputType="text"
         android:layout_toRightOf="@+id/txt_span3"
         android:hint="Nhập id thiết bị" />
 

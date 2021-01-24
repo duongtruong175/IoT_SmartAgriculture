@@ -44,7 +44,6 @@ public class AreaAdapter extends BaseAdapter {
         {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_area_item, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.imageView = convertView.findViewById(R.id.imgView);
             viewHolder.textName = convertView.findViewById(R.id.text_area);
             viewHolder.textDeviceType = convertView.findViewById(R.id.text_devicetype);
             viewHolder.textDeviceId = convertView.findViewById(R.id.text_deviceid);
@@ -56,7 +55,6 @@ public class AreaAdapter extends BaseAdapter {
 
         AreaModel area = areas.get(position);
         viewHolder.textDeviceType.setText(area.getDeviceType());
-        viewHolder.imageView.setImageResource(R.drawable.ic_area);
         viewHolder.textName.setText(area.getName());
         viewHolder.textDeviceId.setText(area.getDeviceId());
 
@@ -64,7 +62,6 @@ public class AreaAdapter extends BaseAdapter {
     }
 
     class ViewHolder {
-        ImageView imageView;
         TextView textDeviceType;
         TextView textDeviceId;
         TextView textName;

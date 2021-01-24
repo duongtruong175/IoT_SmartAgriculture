@@ -1,34 +1,280 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".fragments.AccountFragment">
 
-    <EditText
+    <include
+        android:id="@+id/pb_loading"
+        layout="@layout/progressbar_loading"
+        android:visibility="gone" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Name"/>
+        android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Email"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Gender"/>
+            <TextView
+                android:id="@+id/tv_header"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#FF6633" />
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Date"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_account"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_above="@+id/tv_change"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="58dp"
+                android:background="@drawable/bg_account_image"
+                android:padding="16dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_user" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update"/>
+            <TextView
+                android:id="@+id/tv_change"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_alignBottom="@+id/tv_header"
+                android:background="#88000000"
+                android:gravity="center"
+                android:text="Chạm để thay đổi"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
-</LinearLayout>
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_header"
+                android:padding="16dp"
+                android:text="Username"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_value_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_username"
+                android:layout_alignRight="@id/tv_header"
+                android:layout_alignBottom="@+id/tv_username"
+                android:padding="16dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/v_cross_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_username"
+                android:background="#BBBBBB" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_cross_1"
+                android:padding="16dp"
+                android:text="Name"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_value_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_name"
+                android:layout_alignRight="@id/tv_header"
+                android:layout_alignBottom="@+id/tv_name"
+                android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:drawablePadding="8dp"
+                android:padding="16dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/v_cross_2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/tv_name"
+                android:background="#60BBBBBB" />
+
+            <TextView
+                android:id="@+id/tv_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_cross_2"
+                android:padding="16dp"
+                android:text="Email"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_value_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_email"
+                android:layout_alignRight="@id/tv_header"
+                android:layout_alignBottom="@+id/tv_email"
+                android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:drawablePadding="8dp"
+                android:padding="16dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/v_cross_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_email"
+                android:background="#BBBBBB" />
+
+            <TextView
+                android:id="@+id/tv_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_cross_3"
+                android:padding="16dp"
+                android:text="Gender"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_value_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_gender"
+                android:layout_alignRight="@id/tv_header"
+                android:layout_alignBottom="@+id/tv_gender"
+                android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:drawablePadding="8dp"
+                android:padding="16dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/v_cross_4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tv_gender"
+                android:background="#BBBBBB" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_cross_4"
+                android:padding="16dp"
+                android:text="Date"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_value_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_date"
+                android:layout_alignRight="@id/tv_header"
+                android:layout_alignBottom="@+id/tv_date"
+                android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:drawablePadding="8dp"
+                android:padding="16dp"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/v_cross_5"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_centerInParent="true"
+                android:layout_below="@+id/tv_date"
+                android:layout_alignLeft="@+id/tv_update"
+                android:layout_alignRight="@+id/tv_update"
+                android:background="#BBBBBB" />
+
+            <TextView
+                android:id="@+id/tv_update"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_cross_5"
+                android:layout_centerInParent="true"
+                android:drawableEnd="@drawable/ic_accept"
+                android:drawablePadding="16dp"
+                android:padding="16dp"
+                android:text="Click to accept all change!"
+                android:textColor="@color/red_700"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/v_cross_6"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/tv_update"
+                android:background="#60BBBBBB" />
+
+            <TextView
+                android:id="@+id/tv_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_cross_6"
+                android:padding="16dp"
+                android:text="Change password"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_value_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_password"
+                android:layout_alignRight="@id/tv_header"
+                android:layout_alignBottom="@+id/tv_password"
+                android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:drawablePadding="8dp"
+                android:padding="16dp" />
+
+            <View
+                android:id="@+id/v_cross_7"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/tv_password"
+                android:background="#60BBBBBB" />
+
+            <TextView
+                android:id="@+id/tv_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/v_cross_7"
+                android:padding="16dp"
+                android:text="Log out"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_value_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_logout"
+                android:layout_alignRight="@id/tv_header"
+                android:layout_alignBottom="@+id/tv_logout"
+                android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:drawablePadding="8dp"
+                android:padding="16dp" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

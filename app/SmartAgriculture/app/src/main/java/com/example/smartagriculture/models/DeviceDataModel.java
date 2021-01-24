@@ -1,16 +1,36 @@
 package com.example.smartagriculture.models;
 
 public class DeviceDataModel {
+    int id;
+    String deviceId;
     Double temperatureAir;
     Double humidityAir;
     Double humiditySoil;
-    String timeSend;
+    long timeSend;
 
-    public DeviceDataModel(Double temperatureAir, Double humidityAir, Double humiditySoil, String timeSend) {
+    public DeviceDataModel(int id, String deviceId, Double temperatureAir, Double humidityAir, Double humiditySoil, long timeSend) {
+        this.id = id;
+        this.deviceId = deviceId;
         this.temperatureAir = temperatureAir;
         this.humidityAir = humidityAir;
         this.humiditySoil = humiditySoil;
         this.timeSend = timeSend;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
     public Double getTemperatureAir() {
@@ -37,11 +57,11 @@ public class DeviceDataModel {
         this.humiditySoil = humiditySoil;
     }
 
-    public String getTimeSend() {
+    public long getTimeSend() {
         return timeSend;
     }
 
-    public void setTimeSend(String timeSend) {
+    public void setTimeSend(long timeSend) {
         this.timeSend = timeSend;
     }
 }

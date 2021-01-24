@@ -19,10 +19,10 @@ void callback(char*, byte*, unsigned int);
 #define ANALOG_SOIL_SENSOR 34
 
 //dinh nghia cac thong so thiet bi de ket noi IBM cloud
-#define ORG "a1fssz"
+#define ORG "i4tud6"
 #define DEVICE_TYPE "ESP32"
 #define DEVICE_ID "543493B5AA8C"
-#define TOKEN "POyrUBz6leTn*B29TU"
+#define TOKEN "?if0gLeQXXxbe+DGWd"
 
 char server[] = ORG ".messaging.internetofthings.ibmcloud.com";
 char authMethod[] = "use-token-auth";

@@ -12,8 +12,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp" >
+            android:layout_height="match_parent" >
 
             <TextView
                 android:id="@+id/txt_header"
@@ -22,18 +21,57 @@
                 android:gravity="center"
                 android:paddingTop="20dp"
                 android:paddingBottom="20dp"
-                android:textColor="#ff0000"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:text="Dashboard"
                 tools:ignore="MissingConstraints" />
 
+            <TextView
+                android:id="@+id/tv_label_chart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/spinner_chartType"
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_chartType"
+                android:text="Chart Type:"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                tools:ignore="MissingConstraints" />
+
             <Spinner
-                android:id="@+id/spinner_chart"
+                android:id="@+id/spinner_chartType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/txt_header"
-                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toRightOf="@+id/tv_label_chart"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="2dp"
+                android:textSize="20sp"
+                tools:ignore="MissingConstraints" />
+
+            <TextView
+                android:id="@+id/tv_label_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/spinner_symbolType"
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_symbolType"
+                android:text="Symbol Type:"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                tools:ignore="MissingConstraints" />
+
+            <Spinner
+                android:id="@+id/spinner_symbolType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toRightOf="@+id/tv_label_symbol"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_chartType"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="10dp"
                 android:textSize="20sp"
                 tools:ignore="MissingConstraints" />
 
@@ -42,20 +80,29 @@
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
                 android:gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/spinner_chart">
+                app:layout_constraintTop_toBottomOf="@+id/spinner_symbolType">
 
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/lineChart"
+                <com.example.smartagriculture.AAChartCoreLib.AAChartCreator.AAChartView
+                    android:id="@+id/AAChartView"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:visibility="gone">
-
-                </com.github.mikephil.charting.charts.LineChart>
+                    android:layout_height="380dp"
+                    android:visibility="gone" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center" />
+
+                <TextView
+                    android:id="@+id/tv_no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    android:text="Không có dữ liệu"
+                    android:visibility="gone"
                     android:gravity="center" />
 
             </RelativeLayout>
@@ -70,23 +117,72 @@
                 app:layout_constraintRight_toRightOf="parent"
                 android:orientation="horizontal">
 
-                <CheckBox android:id="@+id/checkbox_temp"
+                <CheckBox android:id="@+id/checkbox_tempAir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Temperature"
+                    android:text="Temperature Air"
+                    android:textSize="12sp"
                     android:checked="true"/>
 
-                <CheckBox android:id="@+id/checkbox_air"
+                <CheckBox android:id="@+id/checkbox_humAir"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Air Humidity"
+                    android:text="Humidity Air"
+                    android:textSize="12sp"
                     android:checked="true"/>
 
-                <CheckBox android:id="@+id/checkbox_soil"
+                <CheckBox android:id="@+id/checkbox_humSoil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Soil Humidity"
+                    android:text="Humidity Soil"
+                    android:textSize="12sp"
                     android:checked="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/option_chart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/checkboxArea"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_param"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:switchPadding="4dp"
+                        android:text="Show Parameter"
+                        android:layout_gravity="center"
+                        android:checked="true"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switch_symbol"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:switchPadding="4dp"
+                        android:text="Show Symbol"
+                        android:layout_gravity="center"
+                        android:checked="true"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -108,9 +204,9 @@
                 android:drawablePadding="4dp"
                 android:background="#808080"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:gravity="center|left"
-                app:layout_constraintTop_toBottomOf="@id/checkboxArea"
+                app:layout_constraintTop_toBottomOf="@id/option_chart"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintLeft_toRightOf="@+id/tv_from"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -142,9 +238,9 @@
                 android:drawablePadding="4dp"
                 android:background="#808080"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
+                android:layout_height="30dp"
                 android:gravity="center|left"
-                app:layout_constraintTop_toBottomOf="@id/checkboxArea"
+                app:layout_constraintTop_toBottomOf="@id/option_chart"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/tv_to"
                 tools:ignore="MissingConstraints"

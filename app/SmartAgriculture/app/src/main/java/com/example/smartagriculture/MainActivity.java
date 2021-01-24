@@ -20,10 +20,24 @@ public class MainActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
 
+    String host;
+    String accessToken;
+    int userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // lay cac bien duoc truyen tu activity qua lop Intent
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            accessToken = bundle.getString("accessToken");
+            host = bundle.getString("host");
+            userId = bundle.getInt("userId");
+        } else {
+            Toast.makeText(getApplicationContext(), "Có lỗi xảy ra, hãy khởi động lại ứng dụng", Toast.LENGTH_SHORT).show();
+        }
 
         // an thanh ActionBar
         ActionBar ab = getSupportActionBar();
@@ -49,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }
@@ -63,8 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 // gan va khoi chay fragment trong FragmentLayout
                 initFragment(navFragment);
                 return true;
-            }
-            else if (item.getItemId() == R.id.navigation_account) {
+            } else if (item.getItemId() == R.id.navigation_account) {
                 Fragment navFragment = new AccountFragment();
                 // gan va khoi chay fragment trong FragmentLayout
                 initFragment(navFragment);
@@ -76,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
 
     // ham gan vo khoi chay fragment trong FragmentLayout
     private void initFragment(Fragment navFragment) {
+        Bundle bundle = new Bundle();
+        bundle.putString("accessToken", accessToken);
+        bundle.putString("host", host);
+        bundle.putInt("userId", userId);
+        navFragment.setArguments(bundle);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.nav_fragment, navFragment); //gan fragment cho FragmentLayout
         ft.commit(); // khoi chay fragment
