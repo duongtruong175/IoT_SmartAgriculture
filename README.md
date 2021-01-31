@@ -2,7 +2,7 @@
 Hệ thống IoT cho giám sát và chăm sóc cây trồng
 
 ## Mô hình chi tiết
-<img src="../images/mohinh.JPG" alt="Mo hinh"/>
+<img src="/images/mohinh.JPG" alt="Mo hinh"/>
 
 Mô hình chi tiết các thành phần trong hệ thống:
 - Cảm biến độ ẩm đất, cảm biến DHT22 giúp đọc thông số môi trường như nhiệt độ, độ ẩm và độ ẩm đất.
