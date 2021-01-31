@@ -1,0 +1,770 @@
+[
+    {
+        "id": "6fc0b8fa.5cea48",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "5fd16b22.b14bc4",
+        "type": "tab",
+        "label": "Flow 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "11ab02e8.6c0fcd",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "9c37c1d2.6b453",
+        "type": "ibmiot",
+        "name": "Connect Node-RED",
+        "keepalive": "60",
+        "serverName": "i4tud6.messaging.internetofthings.ibmcloud.com",
+        "cleansession": true,
+        "appId": "app02",
+        "shared": false
+    },
+    {
+        "id": "f9f2f7c4.e44238",
+        "type": "ui_group",
+        "name": "Sensor",
+        "tab": "18fa3ec9.654131",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "c2fc8e65.10f34",
+        "type": "ui_group",
+        "name": "Action",
+        "tab": "18fa3ec9.654131",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "555934d9.b139bc",
+        "type": "ibmiot",
+        "name": "Connect Node-RED cmd",
+        "keepalive": "60",
+        "serverName": "i4tud6.messaging.internetofthings.ibmcloud.com",
+        "cleansession": true,
+        "appId": "app03",
+        "shared": false
+    },
+    {
+        "id": "7f2c3cc5.a3d294",
+        "type": "ui_group",
+        "name": "Device",
+        "tab": "18fa3ec9.654131",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false
+    },
+    {
+        "id": "18fa3ec9.654131",
+        "type": "ui_tab",
+        "name": "Dashboard",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "8c4b4a26.9abd98",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            },
+            "angularTheme": {
+                "primary": "indigo",
+                "accents": "blue",
+                "warn": "red",
+                "background": "grey"
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "lockMenu": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "d8dd2ed9.ab715",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "home",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "8ade272a.2691b8",
+        "type": "ui_group",
+        "name": "Home",
+        "tab": "d8dd2ed9.ab715",
+        "order": 1,
+        "disp": true,
+        "width": "14",
+        "collapse": false
+    },
+    {
+        "id": "afec5832.b4d258",
+        "type": "ibmiot in",
+        "z": "5fd16b22.b14bc4",
+        "authentication": "apiKey",
+        "apiKey": "9c37c1d2.6b453",
+        "inputType": "evt",
+        "logicalInterface": "",
+        "ruleId": "",
+        "deviceId": "543493B5AA8C",
+        "applicationId": "",
+        "deviceType": "ESP32",
+        "eventType": "status",
+        "commandType": "",
+        "format": "json",
+        "name": "ESP32 Data",
+        "service": "registered",
+        "allDevices": "",
+        "allApplications": "",
+        "allDeviceTypes": "",
+        "allLogicalInterfaces": "",
+        "allEvents": "",
+        "allCommands": "",
+        "allFormats": "",
+        "qos": 0,
+        "x": 250,
+        "y": 200,
+        "wires": [
+            [
+                "a5fc18ab.dcaaf8",
+                "4638207f.9005",
+                "8f686947.4ef6c8",
+                "9f8638c0.dcb918",
+                "20f7a72f.103d98",
+                "92bf735b.141d9",
+                "64981536.c4cbcc"
+            ]
+        ]
+    },
+    {
+        "id": "a5fc18ab.dcaaf8",
+        "type": "debug",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "22582451.6e6bac",
+        "type": "ui_gauge",
+        "z": "5fd16b22.b14bc4",
+        "name": "Humidity Air",
+        "group": "f9f2f7c4.e44238",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity Air",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#0fc6e6"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 790,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "564e41a4.7e2ec",
+        "type": "ui_chart",
+        "z": "5fd16b22.b14bc4",
+        "name": "Temperature Air",
+        "group": "f9f2f7c4.e44238",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature Air",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "Wait a minute",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "100",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#dd2c2c",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "x": 800,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8f686947.4ef6c8",
+        "type": "function",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "func": "var data = JSON.stringify(msg.payload.d);\ndata = JSON.parse(data);\nmsg.payload = data.humidity_air;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 600,
+        "y": 280,
+        "wires": [
+            [
+                "22582451.6e6bac"
+            ]
+        ]
+    },
+    {
+        "id": "4638207f.9005",
+        "type": "function",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "func": "var data = JSON.stringify(msg.payload.d);\ndata = JSON.parse(data);\nmsg.payload = data.temperature_air;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 600,
+        "y": 220,
+        "wires": [
+            [
+                "564e41a4.7e2ec"
+            ]
+        ]
+    },
+    {
+        "id": "b98078e1.e72a48",
+        "type": "ui_gauge",
+        "z": "5fd16b22.b14bc4",
+        "name": "Humidity Soil",
+        "group": "f9f2f7c4.e44238",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity Soil",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#02b3ed"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "x": 790,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "9f8638c0.dcb918",
+        "type": "function",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "func": "var data = JSON.stringify(msg.payload.d);\ndata = JSON.parse(data);\nmsg.payload = data.humidity_soil;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 600,
+        "y": 340,
+        "wires": [
+            [
+                "b98078e1.e72a48"
+            ]
+        ]
+    },
+    {
+        "id": "ecbc5f95.875cc",
+        "type": "ui_switch",
+        "z": "5fd16b22.b14bc4",
+        "name": "Pump",
+        "label": "Máy bơm",
+        "tooltip": "",
+        "group": "c2fc8e65.10f34",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "pump1",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "pump0",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 270,
+        "y": 520,
+        "wires": [
+            [
+                "c6cfaff.a0db15"
+            ]
+        ]
+    },
+    {
+        "id": "c6cfaff.a0db15",
+        "type": "function",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "func": "var cmd;\nif(msg.payload == \"pump1\") {\n    cmd = {pump:1};\n}\nelse if(msg.payload == \"pump0\") {\n    cmd = {pump:0};\n}\nelse if(msg.payload == \"lamp1\") {\n    cmd = {lamp:1};\n}\nelse if(msg.payload == \"lamp0\") {\n    cmd = {lamp:0};\n}\nmsg.payload = JSON.stringify(cmd);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 580,
+        "y": 580,
+        "wires": [
+            [
+                "949162e8.eede7",
+                "de49b88d.8a8fc8"
+            ]
+        ]
+    },
+    {
+        "id": "949162e8.eede7",
+        "type": "ibmiot out",
+        "z": "5fd16b22.b14bc4",
+        "authentication": "apiKey",
+        "apiKey": "555934d9.b139bc",
+        "outputType": "cmd",
+        "deviceId": "543493B5AA8C",
+        "deviceType": "ESP32",
+        "eventCommandType": "control",
+        "format": "json",
+        "data": "msg.payload",
+        "qos": 0,
+        "name": "ESP32 Cmd",
+        "service": "registered",
+        "x": 790,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "de49b88d.8a8fc8",
+        "type": "debug",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "9941c87.9033538",
+        "type": "ui_switch",
+        "z": "5fd16b22.b14bc4",
+        "name": "Lamp",
+        "label": "Đèn",
+        "tooltip": "",
+        "group": "c2fc8e65.10f34",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "",
+        "style": "",
+        "onvalue": "lamp1",
+        "onvalueType": "str",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "lamp0",
+        "offvalueType": "str",
+        "officon": "",
+        "offcolor": "",
+        "x": 270,
+        "y": 640,
+        "wires": [
+            [
+                "c6cfaff.a0db15"
+            ]
+        ]
+    },
+    {
+        "id": "be7b7ad3.8eeee8",
+        "type": "ui_text",
+        "z": "5fd16b22.b14bc4",
+        "group": "7f2c3cc5.a3d294",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "name": "Time",
+        "label": "Time:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 770,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "20f7a72f.103d98",
+        "type": "function",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "func": "function formatDate(date) {\n    var year = date.getFullYear().toString();\n    var month = (date.getMonth() + 1);\n    if(month < 10) {\n        month = '0' + month;\n    }\n    var day = (date.getDate());\n    if(day < 10) {\n        day = '0' + day;\n    }\n    return day + '/' + month + '/' + year;\n}\nfunction formatTime(date) {\n    var hours = date.getHours();\n    if(hours < 10) {\n        hours = '0' + hours;\n    }\n    var minutes = date.getMinutes();\n    if(minutes < 10) {\n        minutes = '0' + minutes;\n    }\n    var seconds = date.getSeconds();\n    if(seconds < 10) {\n        seconds = '0' + seconds;\n    }\n    return hours + ':' + minutes + ':' + seconds;\n}\nvar data = JSON.stringify(msg.payload.d);\ndata = JSON.parse(data);\nvar ts = (data.time_send + 7 * 60 * 60) * 1000;\nvar d = new Date(ts);\nmsg.payload = formatTime(d) + ' ' + formatDate(d);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 600,
+        "y": 160,
+        "wires": [
+            [
+                "be7b7ad3.8eeee8"
+            ]
+        ]
+    },
+    {
+        "id": "1f1ba504.0f53bb",
+        "type": "ui_text",
+        "z": "5fd16b22.b14bc4",
+        "group": "7f2c3cc5.a3d294",
+        "order": 3,
+        "width": "0",
+        "height": "0",
+        "name": "Device ID",
+        "label": "Device ID:",
+        "format": "{{msg.payload}}",
+        "layout": "row-left",
+        "x": 780,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "92bf735b.141d9",
+        "type": "function",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "func": "var data = JSON.stringify(msg.payload.d);\ndata = JSON.parse(data);\nmsg.payload = data.device_id;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 600,
+        "y": 100,
+        "wires": [
+            [
+                "1f1ba504.0f53bb"
+            ]
+        ]
+    },
+    {
+        "id": "5b249e05.15036",
+        "type": "ui_text",
+        "z": "6fc0b8fa.5cea48",
+        "group": "8ade272a.2691b8",
+        "order": 0,
+        "width": "14",
+        "height": "5",
+        "name": "Hello text",
+        "label": "Smart Agriculture",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "x": 480,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "4aac204c.47784",
+        "type": "Db2 out",
+        "z": "5fd16b22.b14bc4",
+        "Db2": "",
+        "service": "Db2-SmartAgriculture-12324",
+        "table": "DeviceData",
+        "name": "send data into DB",
+        "x": 810,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "64981536.c4cbcc",
+        "type": "function",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "func": "var data = JSON.stringify(msg.payload.d);\ndata = JSON.parse(data);\nmsg.payload = data;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 600,
+        "y": 440,
+        "wires": [
+            [
+                "4aac204c.47784",
+                "88ff37eb.272198"
+            ]
+        ]
+    },
+    {
+        "id": "88ff37eb.272198",
+        "type": "debug",
+        "z": "5fd16b22.b14bc4",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "cf5d3c07.53a49",
+        "type": "http in",
+        "z": "11ab02e8.6c0fcd",
+        "name": "Get connect to Db2",
+        "url": "/api/Db2",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "b9e5fb9c.66f028"
+            ]
+        ]
+    },
+    {
+        "id": "b851463f.db1ac8",
+        "type": "http response",
+        "z": "11ab02e8.6c0fcd",
+        "name": "Response Db2",
+        "statusCode": "200",
+        "headers": {},
+        "x": 840,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "791e0168.1810b",
+        "type": "function",
+        "z": "11ab02e8.6c0fcd",
+        "name": "Create json key",
+        "func": "var s = {"add credential in db2 service here !!!"} \n;var key = {\"db2Credential\": s};\nmsg.payload = JSON.stringify(key);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 640,
+        "y": 260,
+        "wires": [
+            [
+                "b851463f.db1ac8"
+            ]
+        ]
+    },
+    {
+        "id": "b9e5fb9c.66f028",
+        "type": "function",
+        "z": "11ab02e8.6c0fcd",
+        "name": "check key",
+        "func": "if(msg.payload.userkey === \"nhom16\" && msg.payload.passwordkey === \"nhom16\") {\n    msg.payload = true;\n}\nelse {\n    msg.payload = false;\n}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 320,
+        "y": 200,
+        "wires": [
+            [
+                "71a841bb.39e2a"
+            ]
+        ]
+    },
+    {
+        "id": "71a841bb.39e2a",
+        "type": "switch",
+        "z": "11ab02e8.6c0fcd",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 490,
+        "y": 200,
+        "wires": [
+            [
+                "14871b2d.95cfb5"
+            ],
+            [
+                "791e0168.1810b"
+            ]
+        ]
+    },
+    {
+        "id": "19b31445.ffda0c",
+        "type": "http response",
+        "z": "11ab02e8.6c0fcd",
+        "name": "Response error",
+        "statusCode": "401",
+        "headers": {},
+        "x": 840,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "14871b2d.95cfb5",
+        "type": "function",
+        "z": "11ab02e8.6c0fcd",
+        "name": "Create json key",
+        "func": "var s = {\n  \"error\": \"Unauthorized\",\n};\nmsg.payload = JSON.stringify(s);\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 640,
+        "y": 140,
+        "wires": [
+            [
+                "19b31445.ffda0c"
+            ]
+        ]
+    }
+]
