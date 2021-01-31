@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+
+        <TextView
+            android:id="@+id/txt_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="Lỗi kết nối"/>
+
+        <TextView
+            android:id="@+id/txt_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_header"
+            android:layout_marginTop="15dp"
+            android:textSize="12sp"
+            android:textColor="@color/red_700"
+            android:text="Ứng dụng cần có một trong các kết nối internet sau để hoạt động. Vui lòng kiểm tra đường truyền và nhấn thử lại."/>
+
+        <TextView
+            android:id="@+id/txt_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baseline_wifi_24"
+            android:drawablePadding="8dp"
+            android:layout_below="@+id/txt_error"
+            android:layout_marginTop="5dp"
+            android:text="Wifi"
+            android:gravity="center|left"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:id="@+id/txt_4g"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_baseline_signal_cellular_connected_no_internet_4_bar_24"
+            android:drawablePadding="8dp"
+            android:layout_below="@+id/txt_wifi"
+            android:layout_marginTop="2dp"
+            android:gravity="center|left"
+            android:text="Kết nối 3G, 4G"
+            android:textSize="12dp"/>
+
+        <TextView
+            android:id="@+id/txt_or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/txt_4g"
+            android:text="Hoặc"
+            android:textSize="14sp"/>
+
+        <RelativeLayout
+            android:id="@+id/txt_cross_1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_toRightOf="@+id/txt_or"
+            android:layout_alignTop="@+id/txt_or"
+            android:layout_alignBottom="@+id/txt_or"
+            android:layout_marginLeft="10dp">
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="1dp"
+                android:background="#BBBBBB"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/txt_cross_2"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_toLeftOf="@+id/txt_or"
+            android:layout_alignTop="@+id/txt_or"
+            android:layout_alignBottom="@+id/txt_or"
+            android:layout_marginRight="10dp">
+
+            <View
+                android:layout_width="60dp"
+                android:layout_height="1dp"
+                android:background="#BBBBBB"
+                android:layout_centerInParent="true"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/txt_error_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_or"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:textSize="12sp"
+            android:textColor="@color/red_700"
+            android:text="Đã xảy ra lỗi khi lấy dữ liệu tạo kết nối. Vui lòng nhấn thử lại."/>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#BBBBBB" />
+
+    <TextView
+        android:id="@+id/txt_reconnect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="THỬ LẠI"
+        android:padding="6dp"
+        android:textColor="@color/teal_700"
+        android:gravity="center"
+        android:textSize="16sp"/>
+
+</LinearLayout>

@@ -1,14 +1,13 @@
-package com.example.smartagriculture.fragments;
+package com.example.smartagriculture;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.SwitchCompat;
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -30,8 +29,6 @@ import com.android.volley.toolbox.Volley;
 import com.example.smartagriculture.AAChartCoreLib.AAChartCreator.AAChartModel;
 import com.example.smartagriculture.AAChartCoreLib.AAChartCreator.AAChartView;
 import com.example.smartagriculture.AAChartCoreLib.AAChartCreator.AASeriesElement;
-import com.example.smartagriculture.AAChartCoreLib.AAChartEnum.AAChartZoomType;
-import com.example.smartagriculture.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,15 +43,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DashboardFragment extends Fragment {
+public class DashboardActivity extends AppCompatActivity {
 
     long startTime, endTime;
+    int numberRow;
 
     ProgressBar progressBar;
     CheckBox tempAir, humAir, humSoil;
     TextView startDate, endDate, tvNoData;
     DatePickerDialog dpd1, dpd2;
-    Spinner spinnerChartType, spinnerSymbolType;
+    Spinner spinnerChartType, spinnerSymbolType, spinnerNumberRow;
     SwitchCompat switchParam, switchSymbol;
 
     AAChartModel aaChartModel;
@@ -65,48 +63,55 @@ public class DashboardFragment extends Fragment {
     ArrayList<Double> humiditySoilData;
     String[] chartTypes;
     String[] symbolTypes;
+    Integer [] numberRows;
 
     String deviceId;
     String host, service;
     String accessToken, id; //id la ma de lay ket qua viec thuc hien cau lenh sql
     int statusCode;
-
-    public DashboardFragment() {
-        // Required empty public constructor
-    }
-
+    
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
 
-    }
+        // lay cac bien duoc truyen tu activity qua lop Intent
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            deviceId = bundle.getString("deviceId");
+            accessToken = bundle.getString("accessToken");
+            host = bundle.getString("host");
+        }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // lay du lieu tu HomeFragment truyen qua
-        deviceId = getArguments().getString("deviceId");
-        accessToken = getArguments().getString("accessToken");
-        host = getArguments().getString("host");
+        // an thanh ActionBar
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle("Dashboard");
+        ab.setDisplayHomeAsUpEnabled(true);
 
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         // lay thanh phan giao dien trong Fragment
-        spinnerChartType = view.findViewById(R.id.spinner_chartType);
-        spinnerSymbolType = view.findViewById(R.id.spinner_symbolType);
-        progressBar = view.findViewById(R.id.progressBar);
-        tvNoData = view.findViewById(R.id.tv_no_data);
-        switchParam = view.findViewById(R.id.switch_param);
-        switchSymbol = view.findViewById(R.id.switch_symbol);
-        tempAir = view.findViewById(R.id.checkbox_tempAir);
-        humAir = view.findViewById(R.id.checkbox_humAir);
-        humSoil = view.findViewById(R.id.checkbox_humSoil);
-        startDate = view.findViewById(R.id.tv_date_start);
-        endDate = view.findViewById(R.id.tv_date_end);
+        spinnerChartType = findViewById(R.id.spinner_chartType);
+        spinnerSymbolType =findViewById(R.id.spinner_symbolType);
+        spinnerNumberRow = findViewById(R.id.spinner_numberRow);
+        progressBar = findViewById(R.id.progressBar);
+        tvNoData = findViewById(R.id.tv_no_data);
+        switchParam = findViewById(R.id.switch_param);
+        switchSymbol = findViewById(R.id.switch_symbol);
+        tempAir = findViewById(R.id.checkbox_tempAir);
+        humAir = findViewById(R.id.checkbox_humAir);
+        humSoil = findViewById(R.id.checkbox_humSoil);
+        startDate = findViewById(R.id.tv_date_start);
+        endDate = findViewById(R.id.tv_date_end);
         // lay view chart
-        aaChartView = view.findViewById(R.id.AAChartView);
+        aaChartView = findViewById(R.id.AAChartView);
+
+        // du lieu cho spinner
+        chartTypes = new String[]{"Line", "Spline", "Area", "Areaspline", "Bar", "Column", "Scatter", "Pie",
+                "Bubble", "Pyramid", "Funnel", "Columnrange", "Arearange", "Areasplinerange", "Boxplot", "Waterfall"};
+        symbolTypes = new String[]{"Circle", "Square", "Diamond", "Triangle", "Triangle-down"};
+        numberRows = new Integer[]{10,20,50,100,200,500};
 
         // khoi tao cac gia tri ban dau
+        numberRow = numberRows[0];
         Date today = new Date();
         endTime = today.getTime() / 1000; //timestamp tính theo second
         startTime = endTime - 60 * 60 * 24;
@@ -114,10 +119,7 @@ public class DashboardFragment extends Fragment {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         startDate.setText(formatter.format(before));
         endDate.setText(formatter.format(today));
-        // du lieu cho spinner
-        chartTypes = new String[]{"Line", "Spline", "Area", "Areaspline", "Bar", "Column", "Scatter", "Pie",
-                "Bubble", "Pyramid", "Funnel", "Columnrange", "Arearange", "Areasplinerange", "Boxplot", "Waterfall"};
-        symbolTypes = new String[]{"Circle", "Square", "Diamond", "Triangle", "Triangle-down"};
+
         // du lieu ban dau cho chart
         temperatureAirData = new ArrayList<>();
         humidityAirData = new ArrayList<>();
@@ -129,15 +131,34 @@ public class DashboardFragment extends Fragment {
         // init chart truoc khi tao cac su kien listener cho cac view
         initChart();
 
+        // khoi tao so luong ban ghi data cho spinner
+        ArrayAdapter<Integer> adapterNumber = new ArrayAdapter<Integer>(getApplicationContext(), android.R.layout.simple_spinner_item, numberRows);
+        adapterNumber.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerNumberRow.setAdapter(adapterNumber);
+
         // khoi tao cac kieu bieu do (chart) cho spinner
-        ArrayAdapter<String> adapterChart = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, chartTypes);
+        ArrayAdapter<String> adapterChart = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, chartTypes);
         adapterChart.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerChartType.setAdapter(adapterChart);
 
         // khoi tao cac kieu bieu tuong (symbol) cho spinner
-        ArrayAdapter<String> adapterSymbol = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, symbolTypes);
+        ArrayAdapter<String> adapterSymbol = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, symbolTypes);
         adapterSymbol.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSymbolType.setAdapter(adapterSymbol);
+
+        // listener cua spinner number row
+        spinnerNumberRow.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                numberRow = numberRows[position];
+                getDeviceData();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         // listener cua spinner chart type
         spinnerChartType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -227,7 +248,7 @@ public class DashboardFragment extends Fragment {
                 int month = Integer.parseInt(parts[1]) - 1;
                 int year = Integer.parseInt(parts[2]);
 
-                dpd1 = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                dpd1 = new DatePickerDialog(DashboardActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int nYear, int nMonth, int nDay) {
                         Calendar c = Calendar.getInstance();
@@ -252,7 +273,7 @@ public class DashboardFragment extends Fragment {
                 int month = Integer.parseInt(parts[1]) - 1;
                 int year = Integer.parseInt(parts[2]);
 
-                dpd2 = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                dpd2 = new DatePickerDialog(DashboardActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int nYear, int nMonth, int nDay) {
                         Calendar c = Calendar.getInstance();
@@ -268,18 +289,26 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        // lay du lieu lan dau
-        getDeviceData();
+    }
 
-        return view;
+    // an vao back tren actionbar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed(); //xu ly tuong ung voi nut back cung
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     // ham lay du lieu thiet bi tu DB theo startTime và endTime
     public void getDeviceData() {
         progressBar.setVisibility(View.VISIBLE);
+        aaChartView.setVisibility(View.GONE);
 
         // tao cau lenh sql va gui den API SQL Statements
-        String sql = "SELECT * FROM \"DeviceData\" WHERE \"device_id\" = '" + deviceId + "' AND \"time_send\" > " + startTime + " AND \"time_send\" < " + endTime + " FETCH FIRST 20 ROWS ONLY;";
+        String sql = "SELECT * FROM \"DeviceData\" WHERE \"device_id\" = '" + deviceId + "' AND \"time_send\" > " + startTime + " AND \"time_send\" < " + endTime + " FETCH FIRST " + numberRow + " ROWS ONLY;";
         try {
             // tao object gui di
             JSONObject sqlInfo = new JSONObject();
@@ -296,7 +325,7 @@ public class DashboardFragment extends Fragment {
 
             // call API thuc hien sql
             //khoi tao RequestQueue
-            RequestQueue requestQueue = Volley.newRequestQueue(getActivity());
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
             //tao json object request voi method POST
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, host + service, sqlInfo,
                     new Response.Listener<JSONObject>() {
@@ -307,7 +336,7 @@ public class DashboardFragment extends Fragment {
                                     id = response.getString("id");
                                     // tu id lay duoc o tren tiep tuc goi API de lay ket qua truy van
                                     //khoi tao RequestQueue
-                                    RequestQueue requestQueue1 = Volley.newRequestQueue(getActivity());
+                                    RequestQueue requestQueue1 = Volley.newRequestQueue(getApplicationContext());
                                     //tao json object request voi method GET
                                     JsonObjectRequest request1 = new JsonObjectRequest(Request.Method.GET, host + service + "/" + id, null,
                                             new Response.Listener<JSONObject>() {
@@ -350,21 +379,21 @@ public class DashboardFragment extends Fragment {
                                                                 // cap nhap lai chart
                                                                 updateChart();
                                                             } else { // cau lenh sql bi loi
-                                                                Toast.makeText(getActivity(), "Có lỗi xảy ra, xin thử lại", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(getApplicationContext(), "Có lỗi xảy ra, xin thử lại", Toast.LENGTH_SHORT).show();
                                                             }
 
                                                         } catch (JSONException e) {
                                                             e.printStackTrace();
                                                         }
                                                     } else {
-                                                        Toast.makeText(getActivity(), "Phản hồi API không chính xác, xin thử lại", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getApplicationContext(), "Phản hồi API không chính xác, xin thử lại", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             }, new Response.ErrorListener() {
                                         @Override
                                         public void onErrorResponse(VolleyError error) {
                                             // response loi 400 401 403 404
-                                            Toast.makeText(getActivity(), "Request API Db2 thất bại, xin thử lại", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getApplicationContext(), "Request API Db2 thất bại, xin thử lại", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                     ) {
@@ -389,17 +418,19 @@ public class DashboardFragment extends Fragment {
                                     e.printStackTrace();
                                 }
                             } else {
-                                Toast.makeText(getActivity(), "Phản hồi API không chính xác, xin thử lại", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Phản hồi API không chính xác, xin thử lại", Toast.LENGTH_SHORT).show();
                             }
 
                             progressBar.setVisibility(View.GONE);
+                            aaChartView.setVisibility(View.VISIBLE);
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     progressBar.setVisibility(View.GONE);
+                    aaChartView.setVisibility(View.VISIBLE);
                     // response loi 400 401 403 404
-                    Toast.makeText(getActivity(), "Request API Db2 thất bại, xin thử lại", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Request API Db2 thất bại, xin thử lại", Toast.LENGTH_SHORT).show();
                 }
             }
             ) {
@@ -447,6 +478,7 @@ public class DashboardFragment extends Fragment {
 
     // ham cap nhap trang thai cho bieu do
     public void updateChart() {
+        progressBar.setVisibility(View.GONE);
         aaSeriesElements = new AASeriesElement[]{};
         List<AASeriesElement> a = new ArrayList<>();
         if (tempAir.isChecked()) {
@@ -478,5 +510,5 @@ public class DashboardFragment extends Fragment {
             aaChartView.aa_onlyRefreshTheChartDataWithChartOptionsSeriesArray(aaSeriesElements, false);
         }
     }
-
+    
 }

@@ -1,54 +1,176 @@
 package com.example.smartagriculture;
 
-import androidx.annotation.NonNull;
+import android.app.Dialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
-import com.example.smartagriculture.fragments.AccountFragment;
-import com.example.smartagriculture.fragments.HomeFragment;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
 
-    String host;
+    JSONObject db2Credential;
+    String host, service;
     String accessToken;
-    int userId;
+    int statusCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // lay cac bien duoc truyen tu activity qua lop Intent
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            accessToken = bundle.getString("accessToken");
-            host = bundle.getString("host");
-            userId = bundle.getInt("userId");
-        } else {
-            Toast.makeText(getApplicationContext(), "Có lỗi xảy ra, hãy khởi động lại ứng dụng", Toast.LENGTH_SHORT).show();
-        }
-
         // an thanh ActionBar
         ActionBar ab = getSupportActionBar();
         ab.hide();
 
-        // lay ra nav
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        navView.setOnNavigationItemSelectedListener(navSelected);
+        if (isNetworkConnected()) {
+            String url = "https://smartagriculture-nhom16.mybluemix.net/api/Db2";
+            try {
+                // object gui kem de lay chuoi ket noi db2
+                JSONObject key = new JSONObject();
+                key.put("userkey", "nhom16");
+                key.put("passwordkey", "nhom16");
 
-        // init cac layout ban dau
-        navView.setSelectedItemId(R.id.navigation_home);
+                // lay chuoi ket noi db2
+                //khoi tao RequestQueue
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                //tao json object request voi method POST
+                JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, key,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                if (statusCode == 200) {
+                                    try {
+                                        db2Credential = response.getJSONObject("db2Credential");
+                                        // ghep thanh chuoi url cua api
+                                        String api = "/dbapi/v4";
+                                        host = db2Credential.getString("https_url") + api;
+
+                                        // object gui kem de lay Access Token
+                                        JSONObject userInfo = new JSONObject();
+                                        userInfo.put("userid", db2Credential.getString("username"));
+                                        userInfo.put("password", db2Credential.getString("password"));
+
+                                        // service lay access token
+                                        service = "/auth/tokens";
+
+                                        // call API Get access token
+                                        //khoi tao RequestQueue
+                                        RequestQueue requestQueue2 = Volley.newRequestQueue(getApplicationContext());
+                                        //tao json object request voi method POST
+                                        JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.POST, host + service, userInfo,
+                                                new Response.Listener<JSONObject>() {
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+                                                        if (statusCode == 200) {
+                                                            try {
+                                                                accessToken = response.getString("token");
+                                                                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                                                                Bundle bundle = new Bundle();
+                                                                bundle.putString("accessToken", accessToken);
+                                                                bundle.putString("host", host);
+                                                                intent.putExtras(bundle);
+                                                                startActivity(intent);
+                                                                finish();
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+                                                        } else {
+                                                            showErrorDialog();
+                                                        }
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                // response loi 400 401 403 404
+                                                showErrorDialog();
+                                            }
+                                        }
+                                        ) {
+                                            @Override
+                                            protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                                                statusCode = response.statusCode;
+                                                return super.parseNetworkResponse(response);
+                                            }
+
+                                            @Override
+                                            public Map getHeaders() throws AuthFailureError {
+                                                HashMap headers = new HashMap();
+                                                headers.put("Content-Type", "application/json");
+                                                return headers;
+                                            }
+                                        };
+                                        //them request vao RequestQueue , no se tu dong duoc chay
+                                        requestQueue2.add(request2);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // response loi 401
+                        showErrorDialog();
+                    }
+                }
+                ) {
+                    @Override
+                    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
+                        statusCode = response.statusCode;
+                        return super.parseNetworkResponse(response);
+                    }
+
+                    @Override
+                    public Map getHeaders() throws AuthFailureError {
+                        HashMap headers = new HashMap();
+                        headers.put("Content-Type", "application/json");
+                        return headers;
+                    }
+                };
+                //them request vao RequestQueue , no se tu dong duoc chay
+                requestQueue.add(request);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else { // khong bat ket noi internet
+            showErrorDialog();
+        }
+
+    }
+
+    // kiem tra may co ket noi internet hay khong
+    private boolean isNetworkConnected() {
+        Context context = getApplicationContext();
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     // an 2 lan back lien tiep de thoat
@@ -68,35 +190,18 @@ public class MainActivity extends AppCompatActivity {
         }, 2000);
     }
 
-    // khi nav thay doi
-    private BottomNavigationView.OnNavigationItemSelectedListener navSelected = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if (item.getItemId() == R.id.navigation_home) {
-                Fragment navFragment = new HomeFragment();
-                // gan va khoi chay fragment trong FragmentLayout
-                initFragment(navFragment);
-                return true;
-            } else if (item.getItemId() == R.id.navigation_account) {
-                Fragment navFragment = new AccountFragment();
-                // gan va khoi chay fragment trong FragmentLayout
-                initFragment(navFragment);
-                return true;
+    public void showErrorDialog() {
+        final Dialog customDialog = new Dialog(MainActivity.this);
+        customDialog.setContentView(R.layout.dialog_error);
+        customDialog.findViewById(R.id.txt_reconnect).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                startActivity(getIntent());
             }
-            return false;
-        }
-    };
-
-    // ham gan vo khoi chay fragment trong FragmentLayout
-    private void initFragment(Fragment navFragment) {
-        Bundle bundle = new Bundle();
-        bundle.putString("accessToken", accessToken);
-        bundle.putString("host", host);
-        bundle.putInt("userId", userId);
-        navFragment.setArguments(bundle);
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.nav_fragment, navFragment); //gan fragment cho FragmentLayout
-        ft.commit(); // khoi chay fragment
+        });
+        customDialog.setCanceledOnTouchOutside(false);
+        customDialog.show();
     }
 
 }

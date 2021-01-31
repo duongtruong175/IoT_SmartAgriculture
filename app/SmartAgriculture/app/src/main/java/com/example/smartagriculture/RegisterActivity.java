@@ -63,8 +63,6 @@ public class RegisterActivity extends AppCompatActivity {
         if (bundle != null) {
             accessToken = bundle.getString("accessToken");
             host = bundle.getString("host");
-        } else {
-            Toast.makeText(getApplicationContext(), "Có lỗi xảy ra, hãy khởi động lại ứng dụng", Toast.LENGTH_SHORT).show();
         }
 
         // an thanh ActionBar
@@ -110,17 +108,13 @@ public class RegisterActivity extends AppCompatActivity {
         tvLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (accessToken != null && host != null) {
-                    Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("accessToken", accessToken);
-                    bundle.putString("host", host);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Có lỗi xảy ra, hãy khởi động lại ứng dụng", Toast.LENGTH_SHORT).show();
-                }
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("accessToken", accessToken);
+                bundle.putString("host", host);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
             }
         });
 

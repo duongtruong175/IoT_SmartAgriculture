@@ -1,13 +1,11 @@
 package com.example.smartagriculture.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +26,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.smartagriculture.ControlActivity;
+import com.example.smartagriculture.DashboardActivity;
 import com.example.smartagriculture.R;
 import com.example.smartagriculture.adapters.AreaAdapter;
 import com.example.smartagriculture.models.AreaModel;
@@ -41,7 +41,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HomeFragment extends Fragment {
+public class AreaFragment extends Fragment {
 
     String host, service;
     String accessToken, id; //id la ma de lay ket qua viec thuc hien cau lenh sql
@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
     ListView listArea;
     View pbLoading;
 
-    public HomeFragment() {
+    public AreaFragment() {
         // Required empty public constructor
     }
 
@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment {
         userId = getArguments().getInt("userId");
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_area, container, false);
         add_area = view.findViewById(R.id.add_area);
         // lay ra list view
         listArea = view.findViewById(R.id.list_area);
@@ -276,14 +276,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 customDialog.dismiss();
-                Fragment f = new ControlFragment();
+                Intent intent = new Intent(getActivity(), ControlActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("deviceType", area.getDeviceType());
                 bundle.putString("deviceId", area.getDeviceId());
-                f.setArguments(bundle);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.nav_fragment, f); //gan fragment cho FragmentLayout
-                ft.commit(); // khoi chay fragment
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
@@ -291,15 +289,13 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 customDialog.dismiss();
-                Fragment f = new DashboardFragment();
+                Intent intent = new Intent(getActivity(), DashboardActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("accessToken", accessToken);
                 bundle.putString("host", host);
                 bundle.putString("deviceId", area.getDeviceId());
-                f.setArguments(bundle);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.replace(R.id.nav_fragment, f); //gan fragment cho FragmentLayout
-                ft.commit(); // khoi chay fragment
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         customDialog.setCanceledOnTouchOutside(true);
