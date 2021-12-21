@@ -12,6 +12,7 @@ Node-RED App
 
 #### 3. Code
 - Import file flows.json để generate ứng dụng (chỉnh sửa các thông số kết nối cho phù hợp)
+- Ở function Create json key của flow 3, copy and paste khóa kết nối tới db2 vào
 
 ### Cách 2: Sử dụng Node-RED App local
 - tương tự như trên nhưng phải tạo các kết nối thủ công
