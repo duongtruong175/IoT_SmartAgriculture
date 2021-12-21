@@ -678,7 +678,7 @@
         "type": "function",
         "z": "11ab02e8.6c0fcd",
         "name": "Create json key",
-        "func": "var s = {"add credential in db2 service here !!!"} \n;var key = {\"db2Credential\": s};\nmsg.payload = JSON.stringify(key);\nreturn msg;",
+        "func": "var s = {\"add credential in db2 service here !!!\"}; \nvar key = {\"db2Credential\": s};\nmsg.payload = JSON.stringify(key);\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
